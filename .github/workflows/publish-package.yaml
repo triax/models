@@ -13,7 +13,6 @@ jobs:
         with:
           node-version: '16.x'
           registry-url: 'https://npm.pkg.github.com'
-          scope: '@triax'
       - run: npm ci
       - name: Increment version
         run: npm run increment-version
