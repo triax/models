@@ -1,6 +1,6 @@
 {
   "name": "@triax/models",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "",
   "scripts": {
     "increment-version": "node ./scripts/increment-version.js"
