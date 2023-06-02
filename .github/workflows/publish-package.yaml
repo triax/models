@@ -13,6 +13,7 @@ jobs:
       - uses: actions/checkout@v3
         with:
           persist-credentials: false
+          fetch-depth: 0
       # Setup .npmrc file to publish to GitHub Packages
       - uses: actions/setup-node@v3
         with:
@@ -24,12 +25,15 @@ jobs:
         run: npm run increment-version
       - name: Push new version
         run: |
-          git config --global user.name "Ayanel CI"
+          echo ${{ github.actor }}
+          echo ${{ github.repository }}
+          REPO=https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
+          git config http.sslVerify false
           git config --global user.email "otiai10+ayanel-ci@gmail.com"
+          git config --global user.name "Ayanel CI"
           git add package.json package-lock.json
-          REPO="https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git"
           git commit -m "Bump version"
-          git push ${REPO} HEAD:main --tags --follow-tags
+          git push ${REPO} HEAD:main --follow-tags
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
